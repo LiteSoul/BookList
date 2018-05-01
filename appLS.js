@@ -56,6 +56,34 @@ class UI {
 		}
 	}
 }
+//Local storage constructor
+class Store {
+	static getBooks() {
+		let books
+		if (localStorage.getItem('books') === null) books = []
+		else books = JSON.parse(localStorage.getItem('books'))
+		return books
+	}
+
+	static displayBooks() {
+		const books = Store.getBooks()
+		books.forEach(book => {
+			const ui = new UI()
+			ui.addBookToList(book)
+		});
+	}
+
+	static addBook(book) {
+		const books = Store.getBooks()
+		books.push(book)
+		localStorage.setItem('books', JSON.stringify(books))
+	}
+
+	static removeBook() {}
+}
+
+//DOM Load Event
+document.addEventListener('DOMContentLoaded', Store.displayBooks)
 
 // Event listener for add book
 document.getElementById('book-form').addEventListener('submit', e => {
@@ -72,6 +100,8 @@ document.getElementById('book-form').addEventListener('submit', e => {
 		ui.showAlert('Please fill in all the fields', 'error')
 	} else {
 		ui.addBookToList(book)
+		//Also add to LS (Local Storage)
+		Store.addBook(book)
 		ui.showAlert('Book added successfully', 'success')
 		ui.clearFields()
 	}
