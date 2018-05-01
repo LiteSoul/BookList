@@ -1,4 +1,3 @@
-//https://video.xx.fbcdn.net/v/t42.9040-2/10000000_2048199168783112_1770798450451939328_n.mp4?_nc_cat=0&efg=eyJybHIiOjE1MDAsInJsYSI6NDA5NiwidmVuY29kZV90YWciOiJzdmVfaGQifQ%3D%3D&rl=1500&vabr=941&oh=e523f4ed3c6cb822fc4ab5f02374f163&oe=5AEA212D
 // Book constructor
 function Book(title, author, isbn) {
 	this.title = title
