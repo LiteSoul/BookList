@@ -8,8 +8,22 @@ function Book(title, author, isbn) {
 // UI constructor
 function UI() {}
 //Alerts
-UI.prototype.showAlert = function (message, className) {
-
+UI.prototype.showAlert = (message, className) => {
+	//Create div
+	const div = document.createElement('div')
+	//Add classes
+	div.className = `alert ${className}`
+	//Add text
+	div.appendChild(document.createTextNode(message))
+	//Get parent
+	const container = document.querySelector('.container')
+	const form = document.querySelector('#book-form')
+	//Insert alert
+	container.insertBefore(div, form)
+	//Remove alert after 3 seconds
+	setTimeout(() => {
+		document.querySelector('.alert').remove()
+	}, 3000)
 }
 //Add book to list
 UI.prototype.addBookToList = function (book) {
