@@ -26,7 +26,7 @@ UI.prototype.showAlert = (message, className) => {
 	}, 3000)
 }
 //Add book to list
-UI.prototype.addBookToList = function (book) {
+UI.prototype.addBookToList = book => {
 	const list = document.getElementById('book-list')
 	//Create tr element
 	const row = document.createElement('tr')
@@ -40,13 +40,20 @@ UI.prototype.addBookToList = function (book) {
 	list.appendChild(row)
 }
 //Clear fields
-UI.prototype.clearFields = function () {
+UI.prototype.clearFields = () => {
 	document.getElementById('title').value = ''
 	document.getElementById('author').value = ''
 	document.getElementById('isbn').value = ''
 }
+//Delete book
+UI.prototype.deleteBook = (ui, target) => {
+	if (target.className === 'delete') {
+		target.parentElement.parentElement.remove()
+		ui.showAlert('Book deleted successfully', 'success')
+	}
+}
 
-// Event listener
+// Event listener for add book
 document.getElementById('book-form').addEventListener('submit', e => {
 	// Get form values
 	const title = document.getElementById('title').value
@@ -61,8 +68,19 @@ document.getElementById('book-form').addEventListener('submit', e => {
 		ui.showAlert('Please fill in all the fields', 'error')
 	} else {
 		ui.addBookToList(book)
+		ui.showAlert('Book added successfully', 'success')
 		ui.clearFields()
 	}
-	//Prevent submit default behavior
+	//Prevent event default behavior
+	e.preventDefault()
+})
+
+//Event listener for delete book
+document.getElementById('book-list').addEventListener('click', e => {
+	//Instantiate UI
+	const ui = new UI()
+
+	ui.deleteBook(ui, e.target)
+	//Prevent event default behavior
 	e.preventDefault()
 })
