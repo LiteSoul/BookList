@@ -70,7 +70,7 @@ class Store {
 		books.forEach(book => {
 			const ui = new UI()
 			ui.addBookToList(book)
-		});
+		})
 	}
 
 	static addBook(book) {
@@ -79,7 +79,15 @@ class Store {
 		localStorage.setItem('books', JSON.stringify(books))
 	}
 
-	static removeBook() {}
+	static removeBook(isbn) {
+		const books = Store.getBooks()
+		books.forEach((book, index) => {
+			if (book.isbn === isbn) {
+				books.splice(index, 1)
+			}
+		})
+		localStorage.setItem('books', JSON.stringify(books))
+	}
 }
 
 //DOM Load Event
@@ -100,8 +108,7 @@ document.getElementById('book-form').addEventListener('submit', e => {
 		ui.showAlert('Please fill in all the fields', 'error')
 	} else {
 		ui.addBookToList(book)
-		//Also add to LS (Local Storage)
-		Store.addBook(book)
+		Store.addBook(book) //Also add to LS (Local Storage)
 		ui.showAlert('Book added successfully', 'success')
 		ui.clearFields()
 	}
@@ -115,6 +122,10 @@ document.getElementById('book-list').addEventListener('click', e => {
 	const ui = new UI()
 
 	ui.deleteBook(ui, e.target)
+	//e.target is the a tag. the parent is td, and the previous sibling is the tb with the isbn
+	//(which is inside the text content)
+	Store.removeBook(e.target.parentElement.previousElementSibling.textContent)
+
 	//Prevent event default behavior
 	e.preventDefault()
 })
