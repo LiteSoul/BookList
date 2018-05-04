@@ -1,0 +1,21 @@
+#main {
+	width: 240px;
+}
+
+#query {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+#listPlaceholder {
+	display: none;
+}
+
+#list:empty+#listPlaceholder {
+	display: block;
+}
+
+.item {
+	display: flex;
+	justify-content: space-between;
+}
